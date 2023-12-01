@@ -1,36 +1,33 @@
 namespace Tests;
 
-public class Day3Tests
+public class Day3Tests : DayTests
 {
-    public const string InputFilePath = "Inputs/Day3Input.txt";
+    public Day3Tests() : base(day: 3) {}
+
+    public string[] Part1ExampleInput = [];
+    public string Part1ExampleOutput = "";
+    public string[] Part2ExampleInput = [];
+    public string Part2ExampleOutput = "";
 
     [Fact]
     public void Part1Example()
     {
-        string[] input = [];
-        var result = new Day3.Part1().Run(input);
-        result.Should().Be("");
+        Run(part: 1, Part1ExampleInput, Part1ExampleOutput);
     }
     [Fact]
     public void Part1Answer()
     {
-        var input = File.ReadAllLines(InputFilePath);
-        var result = new Day3.Part1().Run(input);
-        result.Should().Be("");
+        Run(part: 1);
     }
 
     [Fact]
     public void Part2Example()
     {
-        string[] input = [];
-        var result = new Day3.Part2().Run(input);
-        result.Should().Be("");
+        Run(part: 2, Part2ExampleInput, Part2ExampleOutput);
     }
     [Fact]
     public void Part2Answer()
     {
-        var input = File.ReadAllLines(InputFilePath);
-        var result = new Day3.Part2().Run(input);
-        result.Should().Be("");
+        Run(part: 2);
     }
 }

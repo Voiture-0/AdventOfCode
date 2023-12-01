@@ -1,53 +1,49 @@
 namespace Tests;
 
-public class Day1Tests
+public class Day1Tests : DayTests
 {
-    public const string InputFilePath = "Inputs/Day1Input.txt";
+    public Day1Tests() : base(day: 1) {}
+
+    public string[] Part1ExampleInput = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"];
+    public string Part1ExampleOutput = "142";
+    public string[] Part2ExampleInput = ["two1nine", "eightwothree", "abcone2threexyz", "xtwone3four", "4nineeightseven2", "zoneight234", "7pqrstsixteen"];
+    public string Part2ExampleOutput = "281";
 
     [Fact]
     public void Part1Example()
     {
-        string[] input = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"];
-        var result = new Day1.Part1().Run(input);
-        result.Should().Be("142");
+        Run(part: 1, Part1ExampleInput, Part1ExampleOutput);
     }
     [Fact]
     public void Part1Answer()
     {
-        var input = File.ReadAllLines(InputFilePath);
-        var result = new Day1.Part1().Run(input);
-        result.Should().Be("55386");
+        Run(part: 1);
     }
 
     [Fact]
     public void Part1LinqExample()
     {
-        string[] input = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"];
-        var result = new Day1.Part1().RunLinq(input);
-        result.Should().Be("142");
+        var result = new Day1.Part1().RunLinq(Part1ExampleInput);
+        var expected = Part1ExampleOutput;
+        result.Should().Be(expected);
     }
     [Fact]
     public void Part1LinqAnswer()
     {
-        var input = File.ReadAllLines(InputFilePath);
-        var result = new Day1.Part1().RunLinq(input);
-        result.Should().Be("55386");
+        var result = new Day1.Part1().RunLinq(_input);
+        var expected = _dayConfig.Part1.Answer;
+        result.Should().Be(expected);
     }
 
     [Fact]
     public void Part2Example()
     {
-        string[] input = ["two1nine", "eightwothree", "abcone2threexyz", "xtwone3four", "4nineeightseven2", "zoneight234", "7pqrstsixteen"];
-        var result = new Day1.Part2().Run(input);
-        result.Should().Be("281");
+        Run(part: 2, Part2ExampleInput, Part2ExampleOutput);
     }
     [Fact]
     public void Part2Answer()
     {
-        var input = File.ReadAllLines(InputFilePath);
-        var result = new Day1.Part2().Run(input);
-        result.Should().NotBe("54837");
-        result.Should().NotBe("54826");
-        result.Should().Be("54824");
+        // Incorrect guesses 54837, 54826
+        Run(part: 2);
     }
 }
