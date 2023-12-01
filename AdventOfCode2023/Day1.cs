@@ -106,8 +106,8 @@ public class Day1
                     {
                         // Extract the word from the line and compare with the number word      //var word = searchFromStart ? line.Substring(i, possibleNumber.Length) : line.Substring(line.Length-(i+1), possibleNumber.Length);
                         var word = searchFromStart
-                            ? line[i..endIndex]          // Get the substring of a word from the current index of the same length as the possible number
-                            : line[^(i+1)..^endIndex]; // Do the same thing as above, but go backwards
+                            ? line[i..endIndex]         // Get the substring of a word from the current index of the same length as the possible number
+                            : line[^(i+1)..^endIndex];  // Do the same thing as above, but go backwards
                         // If the extracted word matches the current number word, return its numeric value
                         if (word == possibleNumber) return j+1; // "one" is at index 0, and so on. So add 1 to compensate
                     }
