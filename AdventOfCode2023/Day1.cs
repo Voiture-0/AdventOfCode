@@ -71,71 +71,97 @@ public class Day1
     {
         static string[] Numbers = [ "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" ];
 
-        string Word = "";
-        int NumberLetterIndex = 0;
-        List<string> PossibleNumbers = Numbers.ToList();
-
         public string Run(string[] input)
         {
             var sum = 0;
             foreach (var line in input)
             {
-                // Get a list of just the digits
-                var digits = new List<string>();
-                ResetVars();
-                for (var i = 0; i < line.Length; ++i)
-                {
-                    var character = line[i];
-                    if (char.IsDigit(character))
-                    { 
-                        digits.Add(character.ToString());
-                        ResetVars();
-                    }
-                    else if (PossibleNumbers.Select(n => n[NumberLetterIndex]).Contains(character))
-                    {
-                        Word += character;
-                        NumberLetterIndex++;
-                        if (PossibleNumbers.Contains(Word))
-                        {
-                            var num = Array.IndexOf(Numbers, Word) + 1;
-                            digits.Add(num.ToString());
-                            i -= Word.Length-1;
-                            ResetVars();
-                        }
-                        else
-                        {
-                            PossibleNumbers = PossibleNumbers
-                                .Where(n => n.StartsWith(Word))
-                                .ToList();
+                var firstNumber = GetFirstDigit(line);
+                var lastNumber = GetLastDigit(line);
 
-                            if (PossibleNumbers.Count == 0 && Word.Length > 0)
-                            {
-                                i -= Word.Length;
-                                ResetVars();
-                            }
-                        }
-                    }
-                    else if (Word.Length > 0)
-                    {
-                        i -= Word.Length;
-                        ResetVars();
-                    }
-                }
-
-                var firstNumber = digits.First();
-                var lastNumber = digits.Last();
-
-                var number = Int32.Parse(firstNumber + lastNumber);
-                sum += number;
+                var number = int.Parse(firstNumber + lastNumber);
+                sum += int.Parse(GetFirstDigit(line) + GetLastDigit(line));
             }
             return sum.ToString();
         }
 
-        private void ResetVars()
+        private string GetLastDigit(string line)
         {
-            Word = "";
-            NumberLetterIndex = 0;
-            PossibleNumbers = Numbers.ToList();
+            return GetFirstDigit(line, forwards: false);
+        }
+
+        private string GetFirstDigit(string line, bool forwards = true)
+        {
+            var word = "";
+            var numberLetterIndex = 0;
+            var possibleNumbers = Numbers.ToList();
+            int i = 0; // Declared outside of for loop to simplifying backstepping
+            for (; i < line.Length; ++i)
+            {
+                var character = (forwards ? line[i] : line[^(i+1)]);
+
+                // Found digit!
+                if (char.IsDigit(character)) return character.ToString();
+                
+                // Check if letter could spell a number
+                bool charIsNextInNumber = false;
+                foreach (var numChar in possibleNumbers)
+                {
+                    var index = (forwards ? numberLetterIndex : (^(numberLetterIndex + 1)));
+                    if (numChar[index] == character)
+                    {
+                        charIsNextInNumber = true;
+                        break;
+                    }
+                }
+
+                // Continue checking possible matching letter for word
+                if (charIsNextInNumber)
+                {
+                    word = (forwards ? word + character : character + word);
+                    numberLetterIndex++;
+                    if (possibleNumbers.Contains(word))
+                    {
+                        // Found digit word!
+                        var digitAsNumber = Array.IndexOf(Numbers, word) + 1;
+                        return digitAsNumber.ToString();
+                    }
+                    else
+                    {
+                        // Get new list of possible numbers now with the new letter
+                        var filteredNumbers = new List<string>();
+                        foreach (var num in possibleNumbers)
+                        {
+                            if (forwards ? num.StartsWith(word) : num.EndsWith(word))
+                            {
+                                filteredNumbers.Add(num);
+                            }
+                        }
+                        possibleNumbers = filteredNumbers;
+
+                        // If no possible matches
+                        if (possibleNumbers.Count == 0 && word.Length > 0)
+                        {
+                            Rewind();
+                        }
+                    }
+                }
+                else if (word.Length > 0) // If we were checking a word
+                {
+                    Rewind();
+                }
+            }
+
+            throw new Exception("Could not find digit.");
+
+            void Rewind()
+            {
+                // Backstep back to after the first letter in the word we were checking
+                i -= word.Length;
+                word = "";
+                numberLetterIndex = 0;
+                possibleNumbers = Numbers.ToList();
+            }
         }
     }
 }
