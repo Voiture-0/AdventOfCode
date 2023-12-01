@@ -33,9 +33,9 @@ public class DayTests
         var partType = _sutType.GetNestedType($"Part{part}");
         if (partType != null)
         {
-            var partInstance = Activator.CreateInstance(partType);
+            var partInstance = Activator.CreateInstance(partType, new object[] { input ?? _input });
             var runMethod = partType.GetMethod("Run");
-            var result = runMethod?.Invoke(partInstance, new object[] { input ?? _input });
+            var result = runMethod?.Invoke(partInstance, null);
             var expected = expect ?? _configuration[$"day{_day}:part{part}:answer"];
             Console.WriteLine($"{_sutType.Name} {partType.Name} result: {result}");
             result.Should().Be(expected);

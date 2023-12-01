@@ -23,14 +23,14 @@ public class Day1Tests : DayTests
     [Fact]
     public void Part1LinqExample()
     {
-        var result = new Day1.Part1().RunLinq(Part1ExampleInput);
+        var result = new Day1.Part1(Part1ExampleInput).RunLinq();
         var expected = Part1ExampleOutput;
         result.Should().Be(expected);
     }
     [Fact]
     public void Part1LinqAnswer()
     {
-        var result = new Day1.Part1().RunLinq(_input);
+        var result = new Day1.Part1(_input).RunLinq();
         var expected = _dayConfig.Part1.Answer;
         result.Should().Be(expected);
     }
