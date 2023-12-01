@@ -61,7 +61,7 @@ public class Day1
         public string RunLinq(string[] input)
         {
             return input
-                .Select(line => Int32.Parse(line.First(c => char.IsDigit(c)).ToString() + line.Last(c => char.IsDigit(c)).ToString()))
+                .Select(line => int.Parse(line.First(c => char.IsDigit(c)).ToString() + line.Last(c => char.IsDigit(c)).ToString()))
                 .Sum()
                 .ToString();
         }
@@ -69,99 +69,51 @@ public class Day1
 
     public class Part2
     {
-        static string[] Numbers = [ "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" ];
+        static readonly string[] Numbers = [ "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" ];
 
         public string Run(string[] input)
         {
             var sum = 0;
             foreach (var line in input)
             {
-                var firstNumber = GetFirstDigit(line);
-                var lastNumber = GetLastDigit(line);
-
-                var number = int.Parse(firstNumber + lastNumber);
-                sum += int.Parse(GetFirstDigit(line) + GetLastDigit(line));
+                // Extract the first and last digits (as numbers) from each line
+                var firstDigit = GetDigit(line, searchFromStart: true);
+                var lastDigit = GetDigit(line, searchFromStart: false);
+                // Combine the two digits into a two-digit number and add to the sum
+                sum += firstDigit*10 + lastDigit;
             }
             return sum.ToString();
         }
 
-        private string GetLastDigit(string line)
+        private int GetDigit(string line, bool searchFromStart = true)
         {
-            return GetFirstDigit(line, forwards: false);
-        }
-
-        private string GetFirstDigit(string line, bool forwards = true)
-        {
-            var word = "";
-            var numberLetterIndex = 0;
-            var possibleNumbers = Numbers.ToList();
-            int i = 0; // Declared outside of for loop to simplifying backstepping
-            for (; i < line.Length; ++i)
+            for (var i = 0; i < line.Length; ++i)
             {
-                var character = (forwards ? line[i] : line[^(i+1)]);
+                var character = (searchFromStart ? line[i] : line[^(i+1)]);
 
-                // Found digit!
-                if (char.IsDigit(character)) return character.ToString();
-                
-                // Check if letter could spell a number
-                bool charIsNextInNumber = false;
-                foreach (var numChar in possibleNumbers)
-                {
-                    var index = (forwards ? numberLetterIndex : (^(numberLetterIndex + 1)));
-                    if (numChar[index] == character)
-                    {
-                        charIsNextInNumber = true;
-                        break;
-                    }
-                }
+                // Check if the character is a digit and return it immediately if so
+                if (char.IsDigit(character)) return character-'0'; // subtracting char 0 to simply convert to int (without it would be its ASCII code number)
 
-                // Continue checking possible matching letter for word
-                if (charIsNextInNumber)
+                // Iterate over all possible number words
+                for (var j = 0; j < Numbers.Length; ++j)
                 {
-                    word = (forwards ? word + character : character + word);
-                    numberLetterIndex++;
-                    if (possibleNumbers.Contains(word))
+                    // Get the current number word to compare against
+                    var possibleNumber = Numbers[j];
+                    // Calculate the end index of the substring to extract, adjusting for search direction
+                    var endIndex = searchFromStart ? i + possibleNumber.Length : i+1 - possibleNumber.Length;
+                    // Ensure the endIndex is within the bounds of the string
+                    if (0 <= endIndex && endIndex <= line.Length)
                     {
-                        // Found digit word!
-                        var digitAsNumber = Array.IndexOf(Numbers, word) + 1;
-                        return digitAsNumber.ToString();
+                        // Extract the word from the line and compare with the number word      //var word = searchFromStart ? line.Substring(i, possibleNumber.Length) : line.Substring(line.Length-(i+1), possibleNumber.Length);
+                        var word = searchFromStart
+                            ? line[i..endIndex]          // Get the substring of a word from the current index of the same length as the possible number
+                            : line[^(i+1)..^endIndex]; // Do the same thing as above, but go backwards
+                        // If the extracted word matches the current number word, return its numeric value
+                        if (word == possibleNumber) return j+1; // "one" is at index 0, and so on. So add 1 to compensate
                     }
-                    else
-                    {
-                        // Get new list of possible numbers now with the new letter
-                        var filteredNumbers = new List<string>();
-                        foreach (var num in possibleNumbers)
-                        {
-                            if (forwards ? num.StartsWith(word) : num.EndsWith(word))
-                            {
-                                filteredNumbers.Add(num);
-                            }
-                        }
-                        possibleNumbers = filteredNumbers;
-
-                        // If no possible matches
-                        if (possibleNumbers.Count == 0 && word.Length > 0)
-                        {
-                            Rewind();
-                        }
-                    }
-                }
-                else if (word.Length > 0) // If we were checking a word
-                {
-                    Rewind();
                 }
             }
-
             throw new Exception("Could not find digit.");
-
-            void Rewind()
-            {
-                // Backstep back to after the first letter in the word we were checking
-                i -= word.Length;
-                word = "";
-                numberLetterIndex = 0;
-                possibleNumbers = Numbers.ToList();
-            }
         }
     }
 }
