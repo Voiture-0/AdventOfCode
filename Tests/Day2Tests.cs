@@ -1,6 +1,3 @@
-using AdventOfCode2023;
-using FluentAssertions;
-
 namespace Tests;
 
 public class Day2Tests
