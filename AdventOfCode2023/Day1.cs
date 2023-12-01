@@ -34,15 +34,22 @@ public class Day1
             {
                 var firstNumber = "";
                 var lastNumber = "";
-                foreach(var character in line)
+                for (var i = 0; i < line.Length; ++i)
                 {
+                    var character = line[i];
                     if (char.IsDigit(character))
                     {
-                        if (string.IsNullOrEmpty(firstNumber))
-                        {
-                            firstNumber = character.ToString();
-                        }
+                        firstNumber = character.ToString();
+                        break;
+                    }
+                }
+                for (var i = line.Length-1; i >= 0; --i)
+                {
+                    var character = line[i];
+                    if (char.IsDigit(character))
+                    {
                         lastNumber = character.ToString();
+                        break;
                     }
                 }
                 var number = Int32.Parse(firstNumber + lastNumber);
@@ -50,11 +57,19 @@ public class Day1
             }
             return sum.ToString();
         }
+
+        public string RunLinq(string[] input)
+        {
+            return input
+                .Select(line => Int32.Parse(line.First(c => char.IsDigit(c)).ToString() + line.Last(c => char.IsDigit(c)).ToString()))
+                .Sum()
+                .ToString();
+        }
     }
 
     public class Part2
     {
-        static string[] Numbers = ["one","two","three","four","five","six","seven","eight","nine"];
+        static string[] Numbers = [ "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" ];
 
         string Word = "";
         int NumberLetterIndex = 0;
@@ -65,15 +80,15 @@ public class Day1
             var sum = 0;
             foreach (var line in input)
             {
-                // Tokenize to a list of digits
-                var tokens = new List<string>();
+                // Get a list of just the digits
+                var digits = new List<string>();
                 ResetVars();
                 for (var i = 0; i < line.Length; ++i)
                 {
                     var character = line[i];
                     if (char.IsDigit(character))
                     { 
-                        tokens.Add(character.ToString());
+                        digits.Add(character.ToString());
                         ResetVars();
                     }
                     else if (PossibleNumbers.Select(n => n[NumberLetterIndex]).Contains(character))
@@ -83,36 +98,32 @@ public class Day1
                         if (PossibleNumbers.Contains(Word))
                         {
                             var num = Array.IndexOf(Numbers, Word) + 1;
-                            tokens.Add(num.ToString());
+                            digits.Add(num.ToString());
                             i -= Word.Length-1;
                             ResetVars();
                         }
-                        PossibleNumbers = PossibleNumbers
-                            .Where(n => n.StartsWith(Word)
-                                && n.Length >= NumberLetterIndex)
-                            .ToList();
-
-                        if (PossibleNumbers.Count == 0)
+                        else
                         {
-                            if (Word.Length > 0)
+                            PossibleNumbers = PossibleNumbers
+                                .Where(n => n.StartsWith(Word))
+                                .ToList();
+
+                            if (PossibleNumbers.Count == 0 && Word.Length > 0)
                             {
                                 i -= Word.Length;
                                 ResetVars();
                             }
                         }
                     }
-                    else
+                    else if (Word.Length > 0)
                     {
-                        if (Word.Length > 0)
-                        {
-                            i -= Word.Length;
-                            ResetVars();
-                        }
+                        i -= Word.Length;
+                        ResetVars();
                     }
                 }
 
-                var firstNumber = tokens.First();
-                var lastNumber = tokens.Last();
+                var firstNumber = digits.First();
+                var lastNumber = digits.Last();
 
                 var number = Int32.Parse(firstNumber + lastNumber);
                 sum += number;
@@ -126,6 +137,5 @@ public class Day1
             NumberLetterIndex = 0;
             PossibleNumbers = Numbers.ToList();
         }
-
     }
 }

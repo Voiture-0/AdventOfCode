@@ -20,6 +20,21 @@ public class Day1Tests
     }
 
     [Fact]
+    public void Part1LinqExample()
+    {
+        string[] input = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"];
+        var result = new Day1.Part1().RunLinq(input);
+        result.Should().Be("142");
+    }
+    [Fact]
+    public void Part1LinqAnswer()
+    {
+        var input = File.ReadAllLines(InputFilePath);
+        var result = new Day1.Part1().RunLinq(input);
+        result.Should().Be("55386");
+    }
+
+    [Fact]
     public void Part2Example()
     {
         string[] input = ["two1nine", "eightwothree", "abcone2threexyz", "xtwone3four", "4nineeightseven2", "zoneight234", "7pqrstsixteen"];
