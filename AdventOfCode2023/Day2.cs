@@ -28,38 +28,6 @@ public partial class Day2
     {
         public int Id { get; init; } = id;
         public Dictionary<string, int> Cubes { get; } = [];
-
-        /// <summary>
-        /// Determines if the game is valid based on the maximum number of cubes allowed per color.
-        /// </summary>
-        /// <param name="maxCubes">A dictionary representing the maximum allowed cubes per color.</param>
-        /// <returns>True if the game is valid within the given cube constraints, otherwise false.</returns>
-        public bool IsValidGame(Dictionary<string, int> maxCubes)
-        {
-            foreach (var kvp in Cubes)
-            {
-                var color = kvp.Key;
-                var shownCubes = kvp.Value;
-                maxCubes.TryGetValue(color, out int max);
-                if (shownCubes > max) return false;
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Calculates the "power" of the game, defined as the product of the cube counts for each color.
-        /// </summary>
-        /// <returns>The calculated power of the game.</returns>
-        public int GetPower()
-        {
-            var power = 1;
-            foreach (var color in Colors)
-            {
-                Cubes.TryGetValue(color, out int count);
-                power *= count;
-            }
-            return power;
-        }
     }
 
     /// <summary>
@@ -90,9 +58,27 @@ public partial class Day2
             var sum = 0;
             foreach (var game in Games)
             {
-                if (game.IsValidGame(MaxCubes)) sum += game.Id;
+                if (IsValidGame(game.Cubes, MaxCubes)) sum += game.Id;
             }
             return sum.ToString();
+        }
+
+        /// <summary>
+        /// Determines if the game is valid based on the maximum number of cubes allowed per color.
+        /// </summary>
+        /// <param name="game">A Game object to validate its cubes.</param>
+        /// <param name="maxCubes">A dictionary representing the maximum allowed cubes per color.</param>
+        /// <returns>True if the game is valid within the given cube constraints, otherwise false.</returns>
+        public bool IsValidGame(Dictionary<string, int> gameCubes, Dictionary<string, int> maxCubes)
+        {
+            foreach (var kvp in gameCubes)
+            {
+                var color = kvp.Key;
+                var shownCubes = kvp.Value;
+                maxCubes.TryGetValue(color, out int max);
+                if (shownCubes > max) return false;
+            }
+            return true;
         }
     }
 
@@ -114,9 +100,25 @@ public partial class Day2
             var sum = 0;
             foreach (var game in Games)
             {
-                sum += game.GetPower();
+                sum += GetPower(game.Cubes);
             }
             return sum.ToString();
+        }
+
+        /// <summary>
+        /// Calculates the "power" of the game, defined as the product of the cube counts for each color.
+        /// </summary>
+        /// <param name="cubes">A dictionary of cube colors and their counts for a game.</param>
+        /// <returns>The calculated power of the game.</returns>
+        public int GetPower(Dictionary<string, int> cubes)
+        {
+            var power = 1;
+            foreach (var color in Colors)
+            {
+                cubes.TryGetValue(color, out int count);
+                power *= count;
+            }
+            return power;
         }
     }
 
