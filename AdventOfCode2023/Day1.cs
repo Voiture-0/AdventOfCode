@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace AdventOfCode2023;
+﻿namespace AdventOfCode2023;
 
 /// <summary>
 /// --- Day 1: Trebuchet?! ---
