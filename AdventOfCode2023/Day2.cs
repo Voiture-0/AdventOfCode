@@ -1,70 +1,55 @@
-﻿namespace AdventOfCode2023;
+﻿using System.Text.RegularExpressions;
+
+namespace AdventOfCode2023;
 
 /// <summary>
-/// --- Day 2: Cube Conundrum ---
-/// You're launched high into the atmosphere! The apex of your trajectory just barely reaches the surface of a large island floating in the sky. You gently land in a fluffy pile of leaves. It's quite cold, but you don't see much snow. An Elf runs over to greet you.
+/// Represents the Day 2 challenge of the Advent of Code 2023, involving a game with cubes of different colors.
+/// The challenge involves guessing the number of cubes in a bag based on partial information.
 /// 
-/// The Elf explains that you've arrived at Snow Island and apologizes for the lack of snow. He'll be happy to explain the situation, but it's a bit of a walk, so you have some time. They don't get many visitors up here; would you like to play a game in the meantime?
+/// Brief Overview:
+/// - Each game has multiple rounds with a random number of colored cubes shown.
+/// - The goal is to determine the validity of games based on cube count constraints and calculate specific metrics.
 /// 
-/// As you walk, the Elf shows you a small bag and some cubes which are either red, green, or blue.Each time you play this game, he will hide a secret number of cubes of each color in the bag, and your goal is to figure out information about the number of cubes.
-/// 
-/// To get information, once a bag has been loaded with cubes, the Elf will reach into the bag, grab a handful of random cubes, show them to you, and then put them back in the bag. He'll do this a few times per game.
-/// 
-/// You play several games and record the information from each game (your puzzle input). Each game is listed with its ID number(like the 11 in Game 11: ...) followed by a semicolon-separated list of subsets of cubes that were revealed from the bag(like 3 red, 5 green, 4 blue).
-/// 
-/// For example, the record of a few games might look like this:
-/// 
-/// Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
-/// Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
-/// Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
-/// Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
-/// Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
-/// In game 1, three sets of cubes are revealed from the bag (and then put back again). The first set is 3 blue cubes and 4 red cubes; the second set is 1 red cube, 2 green cubes, and 6 blue cubes; the third set is only 2 green cubes.
+/// For the full puzzle description, see https://adventofcode.com/2023/day/2
 /// </summary>
-public class Day2
+public partial class Day2
 {
     public const string COLOR_RED = "red";
     public const string COLOR_GREEN = "green";
     public const string COLOR_BLUE = "blue";
     public static readonly string[] Colors = [ COLOR_RED, COLOR_GREEN, COLOR_BLUE ];
 
-    public class Game
+    /// <summary>
+    /// Represents a single game in the Day 2 challenge.
+    /// Stores the game's ID and a dictionary of cubes by color.
+    /// Provides functionality to check if a game meets certain cube count constraints and calculate the game's "power".
+    /// </summary>
+    public class Game(int id)
     {
-        public int Id { get; init; }
-        public Dictionary<string, int> Cubes { get; init; } = [];
+        public int Id { get; init; } = id;
+        public Dictionary<string, int> Cubes { get; } = [];
 
-        public Game(string input)
-        {
-            // TODO: Clean this up!
-            // Example Input = "Game 1: 2 red, 3 blue; 4 blue, 5 green"
-            var colonSplit = input.Split(':');
-            Id = int.Parse(colonSplit[0].Split(' ')[1]);
-            var sets = colonSplit[1].Split(';');
-            foreach (var set in sets)
-            {
-                var cubes = set.Split(',');
-                foreach (var c in cubes)
-                {
-                    var data = c.Split(' ');
-                    var count = int.Parse(data[1]);
-                    var color = data[2];
-                    Cubes.TryGetValue(color, out int value);
-                    Cubes[color] = Math.Max(value, count);
-                }
-            }
-        }
-
-        public bool HasEnoughCubes(Dictionary<string, int> maxCubes)
+        /// <summary>
+        /// Determines if the game is valid based on the maximum number of cubes allowed per color.
+        /// </summary>
+        /// <param name="maxCubes">A dictionary representing the maximum allowed cubes per color.</param>
+        /// <returns>True if the game is valid within the given cube constraints, otherwise false.</returns>
+        public bool IsValidGame(Dictionary<string, int> maxCubes)
         {
             foreach (var kvp in Cubes)
             {
                 var color = kvp.Key;
-                var count = kvp.Value;
+                var shownCubes = kvp.Value;
                 maxCubes.TryGetValue(color, out int max);
-                if (count > max) return false;
+                if (shownCubes > max) return false;
             }
             return true;
         }
+
+        /// <summary>
+        /// Calculates the "power" of the game, defined as the product of the cube counts for each color.
+        /// </summary>
+        /// <returns>The calculated power of the game.</returns>
         public int GetPower()
         {
             var power = 1;
@@ -76,65 +61,54 @@ public class Day2
             return power;
         }
     }
-    
-    private static Game[] ParseGames(string[] input)
-    {
-        return input
-            .Select(i => new Game(i))
-            .ToArray();
-    }
 
     /// <summary>
-    /// --- Part One ---
-    /// The Elf would first like to know which games would have been possible if the bag contained only 12 red cubes, 13 green cubes, and 14 blue cubes?
-    /// 
-    /// In the example above, games 1, 2, and 5 would have been possible if the bag had been loaded with that configuration. However, game 3 would have been impossible because at one point the Elf showed you 20 red cubes at once; similarly, game 4 would also have been impossible because the Elf showed you 15 blue cubes at once. If you add up the IDs of the games that would have been possible, you get 8.
-    /// 
-    /// Determine which games would have been possible if the bag had been loaded with only 12 red cubes, 13 green cubes, and 14 blue cubes. What is the sum of the IDs of those games?
+    /// Represents the first part of the Day 2 challenge.
+    /// Determines which games are possible within specific cube count constraints.
     /// </summary>
     public class Part1(string[] input)
     {
-        public readonly Dictionary<string, int> MaxColors = new() { { COLOR_RED, 12 }, { COLOR_GREEN, 13 }, { COLOR_BLUE, 14 } };
+        public const int MAX_RED_CUBES   = 12;
+        public const int MAX_GREEN_CUBES = 13;
+        public const int MAX_BLUE_CUBES  = 14;
+        public readonly Dictionary<string, int> MaxCubes = new()
+        { 
+            { COLOR_RED,   MAX_RED_CUBES   },
+            { COLOR_GREEN, MAX_GREEN_CUBES },
+            { COLOR_BLUE,  MAX_BLUE_CUBES  },
+        };
 
-        public readonly Game[] Games = ParseGames(input);
+        public readonly Game[] Games = GameInputParser.Parse(input);
 
+        /// <summary>
+        /// Executes the logic for Part 1 of the Day 2 challenge.
+        /// Calculates the sum of IDs of all games that are possible within the specified cube count constraints.
+        /// </summary>
+        /// <returns>The sum of the IDs of valid games as a string.</returns>
         public string Run()
         {
             var sum = 0;
             foreach (var game in Games)
             {
-                if (game.HasEnoughCubes(MaxColors)) sum += game.Id;
+                if (game.IsValidGame(MaxCubes)) sum += game.Id;
             }
             return sum.ToString();
         }
     }
 
     /// <summary>
-    /// --- Part Two ---
-    /// The Elf says they've stopped producing snow because they aren't getting any water! He isn't sure why the water stopped; however, he can show you how to get to the water source to check it out for yourself. It's just up ahead!
-    /// 
-    /// As you continue your walk, the Elf poses a second question: in each game you played, what is the fewest number of cubes of each color that could have been in the bag to make the game possible?
-    /// 
-    /// Again consider the example games from earlier:
-    /// 
-    /// Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
-    /// Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
-    /// Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
-    /// Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
-    /// Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
-    /// In game 1, the game could have been played with as few as 4 red, 2 green, and 6 blue cubes.If any color had even one fewer cube, the game would have been impossible.
-    /// Game 2 could have been played with a minimum of 1 red, 3 green, and 4 blue cubes.
-    /// Game 3 must have been played with at least 20 red, 13 green, and 6 blue cubes.
-    /// Game 4 required at least 14 red, 3 green, and 15 blue cubes.
-    /// Game 5 needed no fewer than 6 red, 3 green, and 2 blue cubes in the bag.
-    /// The power of a set of cubes is equal to the numbers of red, green, and blue cubes multiplied together.The power of the minimum set of cubes in game 1 is 48. In games 2-5 it was 12, 1560, 630, and 36, respectively.Adding up these five powers produces the sum 2286.
-    /// 
-    /// For each game, find the minimum set of cubes that must have been present.What is the sum of the power of these sets?
+    /// Represents the second part of the Day 2 challenge.
+    /// Calculates the sum of the "power" of each game, where the power is a specific metric based on cube counts.
     /// </summary>
     public class Part2(string[] input)
     {
-        public readonly Game[] Games = ParseGames(input);
+        public readonly Game[] Games = GameInputParser.Parse(input);
 
+        /// <summary>
+        /// Executes the logic for Part 2 of the Day 2 challenge.
+        /// Calculates the sum of the power of each game.
+        /// </summary>
+        /// <returns>The sum of the powers of all games as a string.</returns>
         public string Run()
         {
             var sum = 0;
@@ -143,6 +117,66 @@ public class Day2
                 sum += game.GetPower();
             }
             return sum.ToString();
+        }
+    }
+
+    /// <summary>
+    /// Provides functionality to parse game data from input strings.
+    /// Utilizes regex to extract game details such as ID and cube counts per color.
+    /// </summary>
+    public static partial class GameInputParser
+    {
+        // Compiled regex for efficient repeated use. 
+        // It captures game ID, followed by several color-count pairs.
+        [GeneratedRegex("Game (?<id>\\d+):( (?<count>\\d+) (?<color>\\w+)(?<separator>,|;)?)+")]
+        private static partial Regex GetInputPattern();
+
+        /// <summary>
+        /// Parses an array of input strings into Game objects.
+        /// Each string represents a game's data including its ID and cube counts.
+        /// </summary>
+        /// <param name="input">Array of input strings, each representing a game's data.</param>
+        /// <returns>An array of parsed Game objects.</returns>
+        /// <exception cref="FormatException">Thrown when an input string does not match the expected format.</exception>
+        public static Game[] Parse(string[] input)
+        {
+            var games = new Game[input.Length];
+            for (var i = 0; i < input.Length; ++i)
+            {
+                var match = GetInputPattern().Match(input[i]);
+                if (!match.Success) throw new FormatException($"Invalid input format: \"{input[i]}\"");
+                games[i] = ParseGame(match, input[i]);
+            }
+            return games;
+        }
+
+        /// <summary>
+        /// Parses the details of a single game from a regex match.
+        /// Extracts and processes the game's ID and cube counts per color.
+        /// </summary>
+        /// <param name="match">The Regex Match object containing the game data.</param>
+        /// <param name="input">The input string being parsed.</param>
+        /// <returns>A parsed Game object.</returns>
+        private static Game ParseGame(Match match, string input)
+        {
+            // Parse game ID
+            var id = int.Parse(match.Groups["id"].Captures.First().Value);
+            // Capture groups for counts and colors
+            var counts = match.Groups["count"].Captures;
+            var colors = match.Groups["color"].Captures;
+            if (counts.Count != colors.Count) throw new FormatException($"Mismatched counts and colors in input: \"{input}\"");
+
+            var game = new Game(id);
+            for (var i = 0; i < counts.Count; ++i)
+            {
+                // Parse count and color
+                var count = int.Parse(counts[i].Value);
+                var color = colors[i].Value;
+                // Update the game's cube record
+                game.Cubes.TryGetValue(color, out int existingCount);
+                game.Cubes[color] = Math.Max(existingCount, count);
+            }
+            return game;
         }
     }
 }
