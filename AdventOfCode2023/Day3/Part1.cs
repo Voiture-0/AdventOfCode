@@ -8,16 +8,8 @@ public class Part1(string[] input)
 
     public string Run()
     {
-        var sum = 0;
-        for (var y = 0; y < input.Length; ++y)
-        for (var x = 0; x < input[y].Length; ++x)
-        {
-            if (!IsPartSymbol(input[y][x])) continue;
-            var partNumbers = GetPartNumbers(input, x, y);
-            sum += partNumbers.Sum();
-        }
-        return sum.ToString();
+        return ProcessSchematic(input, PartSymbols, ProcessParts).ToString();
     }
 
-    private static bool IsPartSymbol(char c) => PartSymbols.Contains(c);
+    public static int ProcessParts(List<int> partNumbers) => partNumbers.Sum();
 }
