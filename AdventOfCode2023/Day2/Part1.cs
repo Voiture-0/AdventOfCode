@@ -25,14 +25,14 @@ public class Part1(string[] input)
     /// Calculates the sum of IDs of all games that are possible within the specified cube count constraints.
     /// </summary>
     /// <returns>The sum of the IDs of valid games as a string.</returns>
-    public string Run()
+    public int Run()
     {
         var sum = 0;
         foreach (var game in Games)
         {
             if (IsValidGame(game.Cubes, MaxCubes)) sum += game.Id;
         }
-        return sum.ToString();
+        return sum;
     }
 
     /// <summary>
@@ -41,7 +41,7 @@ public class Part1(string[] input)
     /// <param name="game">A Game object to validate its cubes.</param>
     /// <param name="maxCubes">A dictionary representing the maximum allowed cubes per color.</param>
     /// <returns>True if the game is valid within the given cube constraints, otherwise false.</returns>
-    public bool IsValidGame(Dictionary<string, int> gameCubes, Dictionary<string, int> maxCubes)
+    public static bool IsValidGame(Dictionary<string, int> gameCubes, Dictionary<string, int> maxCubes)
     {
         foreach (var kvp in gameCubes)
         {

@@ -6,9 +6,9 @@ public class Part1(string[] input)
 {
     public const string PartSymbols = "%=*#$@&/-+";
 
-    public string Run()
+    public int Run()
     {
-        return ProcessSchematic(input, PartSymbols, ProcessParts).ToString();
+        return ProcessSchematic(input, PartSymbols, ProcessParts);
     }
 
     public static int ProcessParts(List<int> partNumbers) => partNumbers.Sum();

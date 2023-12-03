@@ -15,7 +15,7 @@ public class Part2(string[] input)
     /// Calculates the sum of these modified calibration values.
     /// </summary>
     /// <returns>The sum of the modified calibration values as a string.</returns>
-    public string Run()
+    public int Run()
     {
         var sum = 0;
         foreach (var line in input)
@@ -26,7 +26,7 @@ public class Part2(string[] input)
             // Combine the two digits into a two-digit number and add to the sum
             sum += firstDigit * 10 + lastDigit;
         }
-        return sum.ToString();
+        return sum;
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ public class Part2(string[] input)
     /// <param name="searchFromStart">A boolean indicating whether to search from the start (true) or end (false) of the line.</param>
     /// <returns>The numeric value of the first digit found in the line.</returns>
     /// <exception cref="Exception">Thrown if no digit is found in the line.</exception>
-    private int GetDigit(string line, bool searchFromStart)
+    public static int GetDigit(string line, bool searchFromStart)
     {
         for (var i = 0; i < line.Length; ++i)
         {

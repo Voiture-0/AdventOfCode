@@ -39,7 +39,7 @@ public class DayTests
         {
             var partInstance = Activator.CreateInstance(partType, new object[] { input ?? _input });
             var runMethod = partType.GetMethod("Run");
-            var result = runMethod?.Invoke(partInstance, null);
+            var result = runMethod?.Invoke(partInstance, null)?.ToString();
             var expected = expect ?? _configuration[$"day{_day}:part{part}:answer"];
             Console.WriteLine($"Day {_day} {partType.Name} result: {result}");
             result.Should().Be(expected);

@@ -12,7 +12,7 @@ public class Part1(string[] input)
     /// Calculates the sum of two-digit calibration values derived from the first and last digits on each line of the input.
     /// </summary>
     /// <returns>The sum of the calibration values as a string.</returns>
-    public string Run()
+    public int Run()
     {
         var sum = 0;
         foreach (var line in input)
@@ -40,14 +40,13 @@ public class Part1(string[] input)
             var number = int.Parse(firstNumber + lastNumber);
             sum += number;
         }
-        return sum.ToString();
+        return sum;
     }
 
-    public string RunLinq()
+    public int RunLinq()
     {
         return input
             .Select(line => int.Parse(line.First(c => char.IsDigit(c)).ToString() + line.Last(c => char.IsDigit(c)).ToString()))
-            .Sum()
-            .ToString();
+            .Sum();
     }
 }

@@ -15,14 +15,14 @@ public class Part2(string[] input)
     /// Calculates the sum of the power of each game.
     /// </summary>
     /// <returns>The sum of the powers of all games as a string.</returns>
-    public string Run()
+    public int Run()
     {
         var sum = 0;
         foreach (var game in Games)
         {
             sum += GetPower(game.Cubes);
         }
-        return sum.ToString();
+        return sum;
     }
 
     /// <summary>
@@ -30,7 +30,7 @@ public class Part2(string[] input)
     /// </summary>
     /// <param name="cubes">A dictionary of cube colors and their counts for a game.</param>
     /// <returns>The calculated power of the game.</returns>
-    public int GetPower(Dictionary<string, int> cubes)
+    public static int GetPower(Dictionary<string, int> cubes)
     {
         var power = 1;
         foreach (var color in Colors)
