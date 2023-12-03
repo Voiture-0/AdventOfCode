@@ -4,10 +4,10 @@ public class Day3Tests : DayTests
 {
     public Day3Tests() : base(day: 3) {}
 
-    public string[] Part1ExampleInput = [];
-    public string Part1ExampleOutput = "";
-    public string[] Part2ExampleInput = [];
-    public string Part2ExampleOutput = "";
+    public string[] Part1ExampleInput = [ "467..114..", "...*......", "..35..633.", "......#...", "617*......", ".....+.58.", "..592.....", "......755.", "...$.*....", ".664.598.." ];
+    public string Part1ExampleOutput = "4361";
+    public string[] Part2ExampleInput = [ "467..114..", "...*......", "..35..633.", "......#...", "617*......", ".....+.58.", "..592.....", "......755.", "...$.*....", ".664.598.." ];
+    public string Part2ExampleOutput = "467835";
 
     [Fact]
     public void Part1Example()
