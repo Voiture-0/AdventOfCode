@@ -1,26 +1,23 @@
-﻿namespace AdventOfCode2023.Day3;
+﻿using static AdventOfCode2023.Day3.Day3;
+
+namespace AdventOfCode2023.Day3;
 
 public class Part1(string[] input)
 {
-    public int Height = input.Length;
-    public int Width = input[0].Length;
-
-    public const string Symbols = "%=*#$@&/-+";
+    public const string PartSymbols = "%=*#$@&/-+";
 
     public string Run()
     {
         var sum = 0;
-        for (var y = 0; y < Height; ++y)
+        for (var y = 0; y < input.Length; ++y)
+        for (var x = 0; x < input[y].Length; ++x)
         {
-            for (var x = 0; x < Width; ++x)
-            {
-                if (Symbols.Contains(input[y][x]))
-                {
-                    // Check adjacent numbers
-                    sum += Day3.SumAdjacentNumbers(input, x, y);
-                }
-            }
+            if (!IsPartSymbol(input[y][x])) continue;
+            var partNumbers = GetPartNumbers(input, x, y);
+            sum += partNumbers.Sum();
         }
         return sum.ToString();
     }
+
+    private static bool IsPartSymbol(char c) => PartSymbols.Contains(c);
 }

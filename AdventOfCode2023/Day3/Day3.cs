@@ -2,48 +2,28 @@
 
 public class Day3
 {
-    public static int SumAdjacentNumbers(string[] input, int cX, int cY, bool gearsOnly = false)
+    public static List<int> GetPartNumbers(string[] input, int cX, int cY)
     {
-        int height = input.Length;
-        int width = input[0].Length;
-        var sum = 0;
         var adjacentNumbers = new List<int>();
-        // Get top left corner (respecting bounds of input)
-        var tlX = Math.Max(0, cX - 1);
-        var tlY = Math.Max(0, cY - 1);
-        // Get bottom right corner (respecting bounds of input)
-        var brX = Math.Min(width, cX + 1);
-        var brY = Math.Min(height, cY + 1);
-        for (var y = tlY; y <= brY; ++y)
+
+        for (var y = cY-1; y <= cY+1; ++y)
+        for (var x = cX-1; x <= cX+1; ++x)
         {
-            for (var x = tlX; x <= brX; ++x)
+            if (!char.IsDigit(input[y][x])) continue;
+                
+            var number = "";
+            // Check to the left until start of number
+            while (--x >= 0 && char.IsDigit(input[y][x])) ;
+            // Concatenate digits from right to left
+            while (++x < input[y].Length && char.IsDigit(input[y][x]))
             {
-                if (char.IsDigit(input[y][x]))
-                {
-                    var number = "";
-                    // Check to the right until end of number
-                    while (++x < width && char.IsDigit(input[y][x])) ;
-                    // Concatenate digits from right to left
-                    while (--x >= 0 && char.IsDigit(input[y][x]))
-                    {
-                        number = input[y][x].ToString() + number;
-                    }
-
-                    var parsedNum = int.Parse(number);
-                    sum += parsedNum;
-                    adjacentNumbers.Add(parsedNum);
-                    // Move X to end of number, to continue search after
-                    x += number.Length;
-                }
+                number += input[y][x];
             }
+            var parsedNum = int.Parse(number);
+            adjacentNumbers.Add(parsedNum);
         }
 
-        if (gearsOnly)
-        {
-            if (adjacentNumbers.Count == 2) return adjacentNumbers[0] * adjacentNumbers[1];
-            else return 0;
-        }
 
-        return sum;
+        return adjacentNumbers;
     }    
 }
