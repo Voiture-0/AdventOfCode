@@ -28,7 +28,7 @@ public class Part1(string[] input)
                     break;
                 }
             }
-            for (var i = line.Length - 1; i >= 0; --i)
+            for (var i = line.Length-1; i >= 0; --i)
             {
                 var character = line[i];
                 if (char.IsDigit(character))
@@ -41,12 +41,5 @@ public class Part1(string[] input)
             sum += number;
         }
         return sum;
-    }
-
-    public int RunLinq()
-    {
-        return input
-            .Select(line => int.Parse(line.First(c => char.IsDigit(c)).ToString() + line.Last(c => char.IsDigit(c)).ToString()))
-            .Sum();
     }
 }

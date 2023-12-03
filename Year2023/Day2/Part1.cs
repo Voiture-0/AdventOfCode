@@ -1,5 +1,4 @@
-﻿using AdventOfCode2023;
-using static AdventOfCode.Year2023.Day2.Day2;
+﻿using static AdventOfCode.Year2023.Day2.Day2;
 
 namespace AdventOfCode.Year2023.Day2;
 
@@ -9,9 +8,9 @@ namespace AdventOfCode.Year2023.Day2;
 /// </summary>
 public class Part1(string[] input)
 {
-    public const int MAX_RED_CUBES = 12;
+    public const int MAX_RED_CUBES   = 12;
     public const int MAX_GREEN_CUBES = 13;
-    public const int MAX_BLUE_CUBES = 14;
+    public const int MAX_BLUE_CUBES  = 14;
     public readonly Dictionary<string, int> MaxCubes = new()
     {
         { COLOR_RED,   MAX_RED_CUBES   },

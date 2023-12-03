@@ -1,7 +1,6 @@
-﻿using AdventOfCode.Year2023.Day2;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
-namespace AdventOfCode2023;
+namespace AdventOfCode.Year2023.Day2;
 
 /// <summary>
 /// Provides functionality to parse game data from input strings.

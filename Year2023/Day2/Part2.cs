@@ -1,5 +1,4 @@
-﻿using AdventOfCode2023;
-using static AdventOfCode.Year2023.Day2.Day2;
+﻿using static AdventOfCode.Year2023.Day2.Day2;
 
 namespace AdventOfCode.Year2023.Day2;
 
