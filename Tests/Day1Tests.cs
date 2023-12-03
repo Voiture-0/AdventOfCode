@@ -1,3 +1,5 @@
+using AdventOfCode2023.Day1;
+
 namespace Tests;
 
 public class Day1Tests : DayTests
@@ -18,21 +20,6 @@ public class Day1Tests : DayTests
     public void Part1Answer()
     {
         Run(part: 1);
-    }
-
-    [Fact]
-    public void Part1LinqExample()
-    {
-        var result = new Day1.Part1(Part1ExampleInput).RunLinq();
-        var expected = Part1ExampleOutput;
-        result.Should().Be(expected);
-    }
-    [Fact]
-    public void Part1LinqAnswer()
-    {
-        var result = new Day1.Part1(_input).RunLinq();
-        var expected = _dayConfig.Part1.Answer;
-        result.Should().Be(expected);
     }
 
     [Fact]

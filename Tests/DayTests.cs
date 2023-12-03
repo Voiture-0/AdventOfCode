@@ -11,10 +11,11 @@ public class DayTests
     protected readonly string[] _input;
     protected readonly IConfiguration _configuration;
     protected readonly DayConfig _dayConfig;
-    protected readonly Type _sutType;
+    protected readonly Type _sutType1;
+    protected readonly Type _sutType2;
     protected readonly int _day;
 
-    public DayTests(int day)
+    public DayTests(int day, bool partsHaveSameInput = false)
     {
         _day = day;
         _input = File.ReadAllLines($"Inputs/Day{_day}Input.txt");
@@ -24,20 +25,23 @@ public class DayTests
         _dayConfig = _configuration.GetSection($"day{_day}").Get<DayConfig>()!;
 
         var classLibraryAssembly = Assembly.Load(_assemblyName) ?? throw new Exception($"Could not find Assembly {_assemblyName}");
-        var dayTypeName = $"{_assemblyName}.Day{_day}";
-        _sutType = classLibraryAssembly.GetType(dayTypeName) ?? throw new Exception($"Could not find type {dayTypeName}");
+        var dayPartTypePrefix = $"{_assemblyName}.Day{_day}.Part";
+        var dayPart1TypeName = dayPartTypePrefix + "1";
+        var dayPart2TypeName = dayPartTypePrefix + "2";
+        _sutType1 = classLibraryAssembly.GetType(dayPart1TypeName) ?? throw new Exception($"Could not find type {dayPart1TypeName}");
+        _sutType2 = classLibraryAssembly.GetType(dayPart2TypeName) ?? throw new Exception($"Could not find type {dayPart2TypeName}");
     }
 
     public void Run(int part, string[]? input = null, string? expect = null)
     {
-        var partType = _sutType.GetNestedType($"Part{part}");
+        var partType = part == 1 ? _sutType1 : _sutType2;
         if (partType != null)
         {
             var partInstance = Activator.CreateInstance(partType, new object[] { input ?? _input });
             var runMethod = partType.GetMethod("Run");
             var result = runMethod?.Invoke(partInstance, null);
             var expected = expect ?? _configuration[$"day{_day}:part{part}:answer"];
-            Console.WriteLine($"{_sutType.Name} {partType.Name} result: {result}");
+            Console.WriteLine($"Day {_day} {partType.Name} result: {result}");
             result.Should().Be(expected);
         }
     }
