@@ -4,9 +4,9 @@ public class Day3Tests : DayTests
 {
     public Day3Tests() : base(day: 3) {}
 
-    public static string[] Part1ExampleInput = [ "467..114..", "...*......", "..35..633.", "......#...", "617*......", ".....+.58.", "..592.....", "......755.", "...$.*....", ".664.598.." ];
+    public static readonly string[] Part1ExampleInput = [ "467..114..", "...*......", "..35..633.", "......#...", "617*......", ".....+.58.", "..592.....", "......755.", "...$.*....", ".664.598.." ];
     public const string Part1ExampleOutput = "4361";
-    public static string[] Part2ExampleInput = Part1ExampleInput;
+    public static readonly string[] Part2ExampleInput = Part1ExampleInput;
     public const string Part2ExampleOutput = "467835";
 
     [Fact]

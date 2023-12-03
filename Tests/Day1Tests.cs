@@ -6,10 +6,10 @@ public class Day1Tests : DayTests
 {
     public Day1Tests() : base(day: 1) {}
 
-    public string[] Part1ExampleInput = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"];
-    public string Part1ExampleOutput = "142";
-    public string[] Part2ExampleInput = ["two1nine", "eightwothree", "abcone2threexyz", "xtwone3four", "4nineeightseven2", "zoneight234", "7pqrstsixteen"];
-    public string Part2ExampleOutput = "281";
+    public static readonly string[] Part1ExampleInput = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"];
+    public const string Part1ExampleOutput = "142";
+    public static readonly string[] Part2ExampleInput = ["two1nine", "eightwothree", "abcone2threexyz", "xtwone3four", "4nineeightseven2", "zoneight234", "7pqrstsixteen"];
+    public const string Part2ExampleOutput = "281";
 
     [Fact]
     public void Part1Example()
