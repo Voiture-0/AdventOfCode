@@ -1,10 +1,8 @@
-using AdventOfCode2023.Day1;
-
-namespace Tests;
+namespace AdventOfCode.Year2023.Tests;
 
 public class Day1Tests : DayTests
 {
-    public Day1Tests() : base(day: 1) {}
+    public Day1Tests() : base(year: 2023, day: 1) { }
 
     public static readonly string[] Part1ExampleInput = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"];
     public const string Part1ExampleOutput = "142";

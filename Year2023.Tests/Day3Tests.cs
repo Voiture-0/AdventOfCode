@@ -1,10 +1,10 @@
-namespace Tests;
+namespace AdventOfCode.Year2023.Tests;
 
 public class Day3Tests : DayTests
 {
-    public Day3Tests() : base(day: 3) {}
+    public Day3Tests() : base(year: 2023, day: 3) { }
 
-    public static readonly string[] Part1ExampleInput = [ "467..114..", "...*......", "..35..633.", "......#...", "617*......", ".....+.58.", "..592.....", "......755.", "...$.*....", ".664.598.." ];
+    public static readonly string[] Part1ExampleInput = ["467..114..", "...*......", "..35..633.", "......#...", "617*......", ".....+.58.", "..592.....", "......755.", "...$.*....", ".664.598.."];
     public const string Part1ExampleOutput = "4361";
     public static readonly string[] Part2ExampleInput = Part1ExampleInput;
     public const string Part2ExampleOutput = "467835";

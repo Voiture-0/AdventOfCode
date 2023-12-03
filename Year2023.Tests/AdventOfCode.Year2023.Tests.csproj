@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -31,10 +31,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AdventOfCode2023\AdventOfCode2023.csproj" />
+    <ProjectReference Include="..\Year2023\AdventOfCode.Year2023.csproj" />
+    <ProjectReference Include="..\Utilities\AdventOfCode.Utilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Inputs\Day4Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Inputs\Day3Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

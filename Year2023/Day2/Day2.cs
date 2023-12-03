@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode2023.Day2;
+﻿namespace AdventOfCode.Year2023.Day2;
 
 /// <summary>
 /// Represents the Day 2 challenge of the Advent of Code 2023, involving a game with cubes of different colors.
@@ -15,5 +15,5 @@ public class Day2
     public const string COLOR_RED = "red";
     public const string COLOR_GREEN = "green";
     public const string COLOR_BLUE = "blue";
-    public static readonly string[] Colors = [ COLOR_RED, COLOR_GREEN, COLOR_BLUE ];
+    public static readonly string[] Colors = [COLOR_RED, COLOR_GREEN, COLOR_BLUE];
 }

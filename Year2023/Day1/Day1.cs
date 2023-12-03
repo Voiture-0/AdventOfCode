@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode2023.Day1;
+﻿namespace AdventOfCode.Year2023.Day1;
 
 /// <summary>
 /// Represents the Day 1 challenge of the Advent of Code 2023, themed around a trebuchet and a calibration document.

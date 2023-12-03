@@ -1,6 +1,6 @@
-﻿using static AdventOfCode2023.Day3.Day3;
+﻿using static AdventOfCode.Year2023.Day3.Day3;
 
-namespace AdventOfCode2023.Day3;
+namespace AdventOfCode.Year2023.Day3;
 
 /// <summary>
 /// Represents the second part of the Day 3 challenge.

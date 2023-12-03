@@ -1,13 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AdventOfCode.Utilities.Config;
+using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 using System.Reflection;
-using System.Security.Cryptography;
-using Tests.Config;
 
-namespace Tests;
+namespace AdventOfCode.Utilities;
 
 public class DayTests
 {
-    private const string _assemblyName = "AdventOfCode2023";
     protected readonly string[] _input;
     protected readonly IConfiguration _configuration;
     protected readonly DayConfig _dayConfig;
@@ -15,17 +14,18 @@ public class DayTests
     protected readonly Type _sutType2;
     protected readonly int _day;
 
-    public DayTests(int day, bool partsHaveSameInput = false)
+    public DayTests(int year, int day)
     {
         _day = day;
         _input = File.ReadAllLines($"Inputs/Day{_day}Input.txt");
         _configuration = new ConfigurationBuilder()
-            .AddUserSecrets(this.GetType().Assembly)
+            .AddUserSecrets(GetType().Assembly)
             .Build();
         _dayConfig = _configuration.GetSection($"day{_day}").Get<DayConfig>()!;
 
-        var classLibraryAssembly = Assembly.Load(_assemblyName) ?? throw new Exception($"Could not find Assembly {_assemblyName}");
-        var dayPartTypePrefix = $"{_assemblyName}.Day{_day}.Part";
+        var assemblyName = $"AdventOfCode.Year{year}";
+        var classLibraryAssembly = Assembly.Load(assemblyName) ?? throw new Exception($"Could not find Assembly {assemblyName}");
+        var dayPartTypePrefix = $"{assemblyName}.Day{_day}.Part";
         var dayPart1TypeName = dayPartTypePrefix + "1";
         var dayPart2TypeName = dayPartTypePrefix + "2";
         _sutType1 = classLibraryAssembly.GetType(dayPart1TypeName) ?? throw new Exception($"Could not find type {dayPart1TypeName}");

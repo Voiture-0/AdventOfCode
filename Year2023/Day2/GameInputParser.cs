@@ -1,4 +1,4 @@
-﻿using AdventOfCode2023.Day2;
+﻿using AdventOfCode.Year2023.Day2;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode2023;

@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode2023.Day2;
+﻿namespace AdventOfCode.Year2023.Day2;
 
 /// <summary>
 /// Represents a single game in the Day 2 challenge.
