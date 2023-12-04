@@ -9,15 +9,15 @@ public partial class CardInputParser : IInputParser<Card>
     public partial Regex GetInputPattern();
     public Regex Pattern => GetInputPattern();
 
-    public Card ParseItem(Match match, string input)
+    public static Card[] Parse(string[] input)
+    {
+        return InputParser<Card>.Parse(input, new CardInputParser());
+    }
+
+    public Card ParseMatch(Match match, string input)
     {
         var winningNumbers = match.Groups["winningNumbers"].Captures.Select(c => int.Parse(c.Value)).ToArray();
         var ourNumbers = match.Groups["ourNumbers"].Captures.Select(c => int.Parse(c.Value)).ToArray();
         return new Card(winningNumbers, ourNumbers);
-    }
-
-    public static Card[] Parse(string[] input)
-    {
-        return GenericInputParser<Card>.Parse(input, new CardInputParser());
     }
 }
