@@ -6,12 +6,7 @@ public class Part1(string[] input)
 
     public int Run()
     {
-        var sum = 0;
-        foreach (var card in Cards)
-        {
-            sum += GetPoints(card);
-        }
-        return sum;
+        return Cards.Sum(GetPoints);
     }
 
     private static int GetPoints(Card card) => card.Wins == 0 ? 0 : (int)Math.Pow(2, card.Wins-1);
