@@ -2,8 +2,21 @@
 
 public class Part2(string[] input)
 {
-    public string Run()
+    public Card[] Cards = CardInputParser.Parse(input);
+
+    public int Run()
     {
-        return string.Empty;
+        var count = 0;
+        for (var i = 0; i < Cards.Length; ++i)
+        {
+            var card= Cards[i];
+            count += card.Copies;
+            var wins = card.GetWinCount();
+            for (var j = i+1; j <= i+wins; ++j)
+            {
+                Cards[j].Copy(card.Copies);
+            }
+        }
+        return count;
     }
 }
