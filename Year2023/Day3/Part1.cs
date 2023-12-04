@@ -6,7 +6,7 @@ public class Part1(string[] input)
 
     public int Run()
     {
-        return Schematic.Process(input, PartSymbols, SumPartNumbers);
+        return Schematic.Process(input, PartSymbols, SumPartNumbers).Sum();
     }
 
     public static int SumPartNumbers(List<int> partNumbers) => partNumbers.Sum();

@@ -2,17 +2,17 @@
 
 public class Schematic
 {
-    public static int Process(string[] input, string partSymbols, Func<List<int>, int> processParts)
+    public static List<int> Process(string[] input, string partSymbols, Func<List<int>, int> processPart)
     {
-        var sum = 0;
+        var values = new List<int>();
         for (var y = 0; y < input.Length; ++y)
         for (var x = 0; x < input[y].Length; ++x)
         {
             if (!partSymbols.Contains(input[y][x])) continue;
             var partNumbers = GetPartNumbers(input, x, y);
-            sum += processParts(partNumbers);
+            values.Add(processPart(partNumbers));
         }
-        return sum;
+        return values;
     }
 
     public static List<int> GetPartNumbers(string[] input, int cX, int cY)

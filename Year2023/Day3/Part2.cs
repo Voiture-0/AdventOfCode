@@ -6,10 +6,10 @@ public class Part2(string[] input)
 
     public int Run()
     {
-        return Schematic.Process(input, PartSymbols, SumGearRatios);
+        return Schematic.Process(input, PartSymbols, GetGearRatio).Sum();
     }
 
-    public static int SumGearRatios(List<int> partNumbers) => IsGear(partNumbers) ? GetGearRatio(partNumbers) : 0;
+    public static int GetGearRatio(List<int> partNumbers) => IsGear(partNumbers) ? CalculateGearRatio(partNumbers) : 0;
     public static bool IsGear(List<int> partNumbers) => partNumbers.Count == 2;
-    public static int GetGearRatio(List<int> partNumbers) => partNumbers.First() * partNumbers.Last();
+    public static int CalculateGearRatio(List<int> partNumbers) => partNumbers[0] * partNumbers[1];
 }
