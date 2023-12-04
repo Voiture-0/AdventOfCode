@@ -6,17 +6,14 @@ public class Part2(string[] input)
 
     public int Run()
     {
-        var count = 0;
         for (var i = 0; i < Cards.Length; ++i)
         {
-            var card= Cards[i];
-            count += card.Copies;
-            var wins = card.GetWinCount();
-            for (var j = i+1; j <= i+wins; ++j)
+            var card = Cards[i];
+            for (var j = 1; j <= card.Wins; ++j)
             {
-                Cards[j].Copy(card.Copies);
+                Cards[i+j].Copies += card.Copies;
             }
         }
-        return count;
+        return Cards.Sum(c => c.Copies);
     }
 }
