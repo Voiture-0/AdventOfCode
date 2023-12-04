@@ -1,20 +1,9 @@
 ﻿namespace AdventOfCode.Year2023.Day1;
 
-/// <summary>
-/// Represents the second part of the Day 1 challenge.
-/// Extends the puzzle logic to include spelled-out numbers in the calibration document.
-/// The task is to identify the real first and last digit (including spelled-out digits) on each line and calculate their sum.
-/// </summary>
 public class Part2(string[] input)
 {
     public static readonly string[] Numbers = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 
-    /// <summary>
-    /// Executes the logic for Part 2 of the Day 1 challenge.
-    /// Accounts for digits spelled out with letters, identifying the real first and last digit on each line.
-    /// Calculates the sum of these modified calibration values.
-    /// </summary>
-    /// <returns>The sum of the modified calibration values as a string.</returns>
     public int Run()
     {
         var sum = 0;
@@ -29,15 +18,6 @@ public class Part2(string[] input)
         return sum;
     }
 
-    /// <summary>
-    /// Extracts a digit from a given line of text, either as a numeric digit or as a spelled-out number.
-    /// The method searches for the first digit in the line, either from the start or end based on the parameter.
-    /// If a numeric digit is found, it's returned immediately. If a spelled-out number is found, its numeric value is returned.
-    /// </summary>
-    /// <param name="line">The line of text to search for a digit.</param>
-    /// <param name="searchFromStart">A boolean indicating whether to search from the start (true) or end (false) of the line.</param>
-    /// <returns>The numeric value of the first digit found in the line.</returns>
-    /// <exception cref="Exception">Thrown if no digit is found in the line.</exception>
     public static int GetDigit(string line, bool searchFromStart)
     {
         for (var i = 0; i < line.Length; ++i)

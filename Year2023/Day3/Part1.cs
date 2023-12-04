@@ -1,6 +1,4 @@
-﻿using static AdventOfCode.Year2023.Day3.Day3;
-
-namespace AdventOfCode.Year2023.Day3;
+﻿namespace AdventOfCode.Year2023.Day3;
 
 public class Part1(string[] input)
 {
@@ -8,7 +6,7 @@ public class Part1(string[] input)
 
     public int Run()
     {
-        return ProcessSchematic(input, PartSymbols, SumPartNumbers);
+        return Schematic.Process(input, PartSymbols, SumPartNumbers);
     }
 
     public static int SumPartNumbers(List<int> partNumbers) => partNumbers.Sum();

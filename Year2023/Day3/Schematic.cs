@@ -1,8 +1,8 @@
 ﻿namespace AdventOfCode.Year2023.Day3;
 
-public class Day3
+public class Schematic
 {
-    public static int ProcessSchematic(string[] input, string partSymbols, Func<List<int>, int> processParts)
+    public static int Process(string[] input, string partSymbols, Func<List<int>, int> processParts)
     {
         var sum = 0;
         for (var y = 0; y < input.Length; ++y)

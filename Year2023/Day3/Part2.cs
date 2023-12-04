@@ -1,6 +1,4 @@
-﻿using static AdventOfCode.Year2023.Day3.Day3;
-
-namespace AdventOfCode.Year2023.Day3;
+﻿namespace AdventOfCode.Year2023.Day3;
 
 public class Part2(string[] input)
 {
@@ -8,7 +6,7 @@ public class Part2(string[] input)
 
     public int Run()
     {
-        return ProcessSchematic(input, PartSymbols, SumGearRatios);
+        return Schematic.Process(input, PartSymbols, SumGearRatios);
     }
 
     public static int SumGearRatios(List<int> partNumbers) => IsGear(partNumbers) ? GetGearRatio(partNumbers) : 0;
