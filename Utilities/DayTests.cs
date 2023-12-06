@@ -14,14 +14,16 @@ public class DayTests
     protected readonly Type _sutType2;
     protected readonly int _day;
 
-    public DayTests(int year, int day)
+    public DayTests(int day)
     {
         _day = day;
         _input = File.ReadAllLines($"Inputs/Day{_day}Input.txt");
         _configuration = new ConfigurationBuilder()
-            .AddUserSecrets(GetType().Assembly)
+            .AddJsonFile("appsettings.json")
             .Build();
-        _dayConfig = _configuration.GetSection($"day{_day}").Get<DayConfig>()!;
+        _dayConfig = _configuration.GetSection($"days:day{_day}").Get<DayConfig>()!;
+
+        var year = int.Parse(_configuration["year"] ?? throw new Exception("Missing \"year\" in appsettings.json"));
 
         var assemblyName = $"AdventOfCode.Year{year}";
         var classLibraryAssembly = Assembly.Load(assemblyName) ?? throw new Exception($"Could not find Assembly {assemblyName}");
@@ -37,10 +39,10 @@ public class DayTests
         var partType = part == 1 ? _sutType1 : _sutType2;
         if (partType != null)
         {
-            var partInstance = Activator.CreateInstance(partType, new object[] { input ?? _input });
+            var partInstance = Activator.CreateInstance(partType, [input ?? _input]);
             var runMethod = partType.GetMethod("Run");
             var result = runMethod?.Invoke(partInstance, null)?.ToString();
-            var expected = expect ?? _configuration[$"day{_day}:part{part}:answer"];
+            var expected = expect ?? _configuration[$"days:day{_day}:part{part}:answer"];
             Console.WriteLine($"Day {_day} {partType.Name} result: {result}");
             result.Should().Be(expected);
         }
