@@ -4,8 +4,8 @@ public class Day6Tests : DayTests
 {
     public Day6Tests() : base(day: 6) { }
 
-    public static readonly string[] Part1ExampleInput = [];
-    public const string Part1ExampleOutput = "";
+    public static readonly string[] Part1ExampleInput = ["Time:      7  15   30", "Distance:  9  40  200"];
+    public const string Part1ExampleOutput = "288";
     public static readonly string[] Part2ExampleInput = [];
     public const string Part2ExampleOutput = "";
 
